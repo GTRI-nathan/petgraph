@@ -43,6 +43,10 @@ use data::{
 pub use super::isomorphism::{
     is_isomorphic,
     is_isomorphic_matching,
+    is_subgraph_isomorphic,
+    is_subgraph_isomorphic_matching,
+    find_isomorphic_subgraphs_mappings,
+    find_matching_isomorphic_subgraphs_mappings,
 };
 pub use super::dijkstra::dijkstra;
 pub use super::astar::astar;

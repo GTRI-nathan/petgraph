@@ -394,6 +394,75 @@ fn s12_not_iso()
 }
 
 #[test]
+fn iso_sub()
+{
+    let mut g0 = Graph::<_, ()>::new();
+    let mut g1 = Graph::<_, ()>::new();
+
+    // very simple cases
+    let a0 = g0.add_node(0);
+    let a1 = g1.add_node(0);
+
+    assert_eq!(petgraph::algo::find_isomorphic_subgraphs_mappings(&g0, &g1),
+                   vec![
+                    vec![a1],
+                   ]
+               );
+
+    let b0 = g0.add_node(1);
+    let b1 = g1.add_node(1);
+
+    assert_eq!(petgraph::algo::find_isomorphic_subgraphs_mappings(&g0, &g1),
+                   vec![
+                    vec![a1,b1],
+                    vec![b1,a1],
+                   ]
+               );
+
+    let c0 = g0.add_node(2);
+    let c1 = g1.add_node(2);
+
+    let d0 = g0.add_node(3);
+    let d1 = g1.add_node(3);
+
+    g0.add_edge(a0, b0, ());
+    g1.add_edge(a1, b1, ());
+
+    g0.add_edge(c0, d0, ());
+    g1.add_edge(c1, d1, ());
+
+    assert_eq!(petgraph::algo::find_isomorphic_subgraphs_mappings(&g0, &g1),
+                   vec![
+                    vec![a1,b1,c1,d1],
+                    vec![c1,d1,a1,b1],
+                   ]
+               );
+
+    g1.add_edge(b1, c1, ());
+
+    assert_eq!(petgraph::algo::find_isomorphic_subgraphs_mappings(&g0, &g1),
+                   vec![
+                    vec![a1,b1,c1,d1],
+                    vec![c1,d1,a1,b1],
+                   ]
+               );
+
+    let e1 = g1.add_node(4);
+    g1.add_edge(d1, e1, ());
+
+    assert_eq!(petgraph::algo::find_isomorphic_subgraphs_mappings(&g0, &g1),
+                   vec![
+                    vec![a1,b1,c1,d1],
+                    vec![a1,b1,d1,e1],
+                    vec![b1,c1,d1,e1],
+                    vec![c1,d1,a1,b1],
+                    vec![d1,e1,a1,b1],
+                    vec![d1,e1,b1,c1],
+                   ]
+               );
+}
+
+#[test]
 fn iso1()
 {
     let mut g0 = Graph::<_, ()>::new();
