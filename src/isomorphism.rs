@@ -497,7 +497,9 @@ fn try_match<N, E, Ty, Ix, F, G>(mut st: &mut [Vf2State<Ty, Ix>; 2],
                                 return false;
                             }
                         }
-                        None => unreachable!() // covered by syntactic check
+                        // Covered by syntatic check except if "to" graph is larger
+                        // in which case we can continue
+                        None => (),
                     }
                 }
             }
@@ -517,7 +519,9 @@ fn try_match<N, E, Ty, Ix, F, G>(mut st: &mut [Vf2State<Ty, Ix>; 2],
                                     return false;
                                 }
                             }
-                            None => unreachable!() // covered by syntactic check
+                            // Covered by syntatic check except "if" to graph is larger
+                            // in which case we can continue
+                            None => (),
                         }
                     }
                 }
